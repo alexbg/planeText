@@ -1,0 +1,6 @@
+node_modules
+app
+src/node_modules
+src/bower_components
+dist
+buildd
