@@ -19,10 +19,13 @@ var actionsButtons = function(dispatch){
       dispatch(actions.keep(text));
     },
     save: function(){
-      dispatch(actions.save());
+      dispatch(actions.saveInDisk());
     },
     changeTitle: function(title){
       dispatch(actions.changeTitle(title));
+    },
+    getDocuments: function(){
+      dispatch(actions.getDocuments('prueba'));
     }
   }
 }

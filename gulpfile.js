@@ -65,7 +65,7 @@ var mergeCss = function(){
         .pipe(concat('mainLess.css'));
 
   var streamCss = gulp.src('./src/assets/**/*.css')
-        .pipe(concat('mainCss.css'));  
+        .pipe(concat('mainCss.css'));
 
   return merge(streamSass,streamLess,streamCss,streamIndCss)
         .pipe(concat('main.css'))

@@ -4,6 +4,12 @@ export default{
       type: 'SAVE'
     }
   },
+  message: function(message){
+    return {
+      type: 'MESSAGE',
+      message: message
+    }
+  },
   new: function(){
     return {
       type: 'NEW'
@@ -31,6 +37,23 @@ export default{
     return {
       type: 'CHANGE_TITLE',
       title: title
+    }
+  },
+  getDocuments: function(document){
+    return {
+      type: 'GET_DOCUMENTS',
+      document: document
+    }
+  },
+  saveInDisk: function(){
+    var self = this;
+    return function(dispatch,getState){
+
+      dispatch(self.save());
+      getState().planeText.promise.then(function(){
+        dispatch(self.message('SAVED'));
+      });
+
     }
   }
 }

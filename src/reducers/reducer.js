@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
-import loki from 'lokijs';
-import {LokiNativeScriptAdapter} from 'loki-nativescript-adapter';
 
-var db = new loki('./loki.json',{autload: true, adapter: new LokiNativeScriptAdapter});
-if(!db.getCollection('planeText')){
-  db.addCollection('planeText');
-}
+import PouchDB from 'pouchdb';
+
+var db = new PouchDB('planeText',{adapter: 'websql'});
+db.destroy(function(){
+  db = new PouchDB('planeText',{adapter: 'websql'});
+});
+
 const planeText = function(state = {title: ''},action){
   // estados siempre igual, excepto cuando cuambian en la accion
   state.message = {
@@ -19,7 +20,8 @@ const planeText = function(state = {title: ''},action){
 
   switch (action.type) {
     case 'KEEP':
-      return Object.assign({},state,{text: action.text});
+      console.log(action.text);
+      return Object.assign({},state,{text: action.text.text});
       break;
     case 'NEW':
       // Se crea un texto en la base de datos
@@ -48,20 +50,38 @@ const planeText = function(state = {title: ''},action){
       break;
     case 'SAVE':
       // Guardar todo en la base de datos
-      var id = state.id;
-      var collection = db.getCollection('planeText');
-      var newDoc = collection.insertOne({title: state.title, text: state.text});
-      console.log('guardando en la base de dato');
-      console.log(db);
-      console.log(newDoc);
 
-      var message = createMessage(state.message,'SAVED');
-      return Object.assign({},state,{message: message,id: id});
-      db.saveDatabase(function(err,a){
-        console.log(err);
-        console.log(a);
-      });
+      console.log('ESTA EN EL SAVE');
 
+      return Object.assign({},state,{promise: db.post({title: state.title,text: state.text})});
+
+      break;
+    case 'MESSAGE':
+      console.log('ESTA EN EL MESSAGE');
+      var message = createMessage(state.message,action.message);
+      if(state.promise){
+        state.promise = '';
+      }
+      return Object.assign({},state,{message: message});
+      break;
+    case 'GET_DOCUMENTS':
+      if(action.document){
+        db.allDocs().then(
+          function(response){
+            console.log(response.rows[0]);
+            db.get(response.rows[0].id).then(function(data){
+              console.log(data);
+            });
+          }
+        );
+        //console.log(db.allDocs().then(function(response){console.log(response);}));
+        console.log(db.get(action.document).then(function(data){console.log(data)}));
+      }
+      else{
+        console.log(db.allDocs().then(function(response){console.log(response);}));
+      }
+      return state;
+      break;
     default:
       return state;
   }

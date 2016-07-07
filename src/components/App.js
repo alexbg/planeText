@@ -49,7 +49,13 @@ const App = React.createClass({
           name: 'changeTitle',
           className: 'fa fa-pencil-square-o',
           title: 'Change title',
-          action: function saveText(editor){self.props.changeTitle()}
+          action: function changeTitle(editor){self.props.changeTitle()}
+        },
+        {
+          name: 'pruebas',
+          className: 'fa fa-pencil-square-o',
+          title: 'Pruebas',
+          action: function pruebas(editor){self.props.getDocuments()}
         }
       ],
       shortcuts: {
