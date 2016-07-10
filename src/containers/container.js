@@ -26,6 +26,9 @@ var actionsButtons = function(dispatch){
     },
     getDocuments: function(){
       dispatch(actions.getDocuments('prueba'));
+    },
+    loadDocuments: function(){
+      dispatch(actions.loadDocuments());
     }
   }
 }

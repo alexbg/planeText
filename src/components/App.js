@@ -48,7 +48,7 @@ const App = React.createClass({
         {
           name: 'changeTitle',
           className: 'fa fa-pencil-square-o',
-          title: 'Change title',
+          title: 'Change Title',
           action: function changeTitle(editor){self.props.changeTitle()}
         },
         {
@@ -56,6 +56,12 @@ const App = React.createClass({
           className: 'fa fa-pencil-square-o',
           title: 'Pruebas',
           action: function pruebas(editor){self.props.getDocuments()}
+        },
+        {
+          name: 'Load document',
+          className: 'fa fa-folder',
+          title: 'Load a document',
+          action: function loadDocument(editor){self.props.loadDocuments()}
         }
       ],
       shortcuts: {
@@ -71,7 +77,9 @@ const App = React.createClass({
 
   render: function(){
     var state = this.props;
-    var changeTitleModal;
+
+    //var changeTitleModal;
+
     console.log('ESTE ES EL STATE QUE ESTA EN LA VISTA');
     console.log(state);
     // buttons changeTitleModal
@@ -97,27 +105,40 @@ const App = React.createClass({
           <div className='title'>{state.planeText.title}</div>
           <textarea id = 'editor'>
           </textarea>
-
+          {/* this is the message*/}
           <Snackbar
             open={state.planeText.message.open}
             message={state.planeText.message.message}
             autoHideDuration={state.planeText.message.duration}
             bodyStyle={{textAlign: 'center'}}
           />
-
+          {/* Change the title */}
           <Dialog
             title="Change title"
             actions={changeTitleModalButton}
             modal={false}
             open={state.planeText.changeTitle}
           >
-          <TextField
-            hintText="Write the title"
-            fullWidth={true}
-            onChange={function(e){tempValues = e.target.value}}
-          />
-        </Dialog>
+            <TextField
+              hintText="Write the title"
+              fullWidth={true}
+              onChange={function(e){tempValues = e.target.value}}
+            />
+          </Dialog>
 
+          {/* Documents */}
+          <Dialog
+            title="Load a document"
+            actions={changeTitleModalButton}
+            modal={false}
+            open={state.planeText.documents}
+          >
+            <TextField
+              hintText="No es nada"
+              fullWidth={true}
+              onChange={function(e){tempValues = e.target.value}}
+            />
+          </Dialog>
         </div>
       </MuiThemeProvider>
     );

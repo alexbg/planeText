@@ -59,10 +59,16 @@ const planeText = function(state = {title: ''},action){
     case 'MESSAGE':
       console.log('ESTA EN EL MESSAGE');
       var message = createMessage(state.message,action.message);
-      if(state.promise){
-        state.promise = '';
-      }
+
       return Object.assign({},state,{message: message});
+      break;
+    case 'LOAD_DOCUMENTS':
+        console.log('Obteniendo los documentos nuevos');
+        return Object.assign({},state,{promise: db.allDocs({include_docs: true})});
+      break;
+    case 'INSERT_MULTIPLE_DOCUMENTS':
+      console.log('insertando multiples documentos');
+      return Object.assign({},state,{documents: action.documents});
       break;
     case 'GET_DOCUMENTS':
       if(action.document){
@@ -82,6 +88,9 @@ const planeText = function(state = {title: ''},action){
       }
       return state;
       break;
+    /*case 'FINISH_WORK':
+      return Object.assign({},state,{promise: null});
+      break;*/
     default:
       return state;
   }

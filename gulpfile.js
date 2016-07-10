@@ -17,6 +17,7 @@ var gutil = require('gulp-util');
 var babelify = require('babelify');
 var less = require('gulp-less');
 var merge = require('merge-stream');
+//var plumber = require('gulp-plumber');
 
 var fs = require("fs");
 
@@ -24,7 +25,7 @@ var fs = require("fs");
 
 var individualsJs = [
   //'./src/bower_components/uikit/js/uikit.min.js',
-  './src/bower_components/jQuery/dist/jquery.min.js',
+  './src/bower_components/jquery/dist/jquery.min.js',
   //'./src/assets/js/rm.js'
 ]
 
@@ -76,23 +77,21 @@ var mergeCss = function(){
 }
 
 var babelDevelopment = function(){
+  gutil.log('DEVELOPMENT');
   var b = browserify({
     entries: [
       //'./src/assets/js/rm.js',
       './src/index.js'
     ],
     debug: true
-  }).transform(babelify,{presets: ["stage-0","es2015", "react"]});
+  })
+  .transform(babelify,{presets: ["stage-0","es2015", "react"]})
+
 
   return b.bundle()
+    .on('error',gutil.log)
     .pipe(source('app.js'))
     .pipe(buffer())
-    .on('error', gutil.log)
-    //.pipe(sourcemaps.init({loadMaps: true}))
-        // Add transformation tasks to the pipeline here.
-        //.pipe(uglify())
-        //.on('error', gutil.log)
-    //.pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./app/js/'));
 };
 
@@ -106,12 +105,13 @@ var babelProduction = function(){
   }).transform(babelify,{presets: ["stage-0","es2015", "react"]});
 
   return b.bundle()
+    .on('error',gutil.log)
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
         .pipe(uglify())
-        .on('error', gutil.log)
+        .on('error', function(){})
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./app/js/'));
 

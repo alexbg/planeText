@@ -45,6 +45,30 @@ export default{
       document: document
     }
   },
+  insertMultipleDocument: function(documents){
+    return{
+      type: 'INSERT_MULTIPLE_DOCUMENTS',
+      documents: documents
+    }
+  },
+  loadDocuments: function(){
+    var self = this;
+    return function(dispatch,getState){
+      dispatch({type: 'LOAD_DOCUMENTS'});
+      //console.log(getState());
+      if(getState().planeText.promise){
+        getState().planeText.promise.then(function(documents){
+          dispatch(self.insertMultipleDocument(documents));
+          //dispatch(self.finish());
+        });
+      }
+    }
+  },
+  finish: function(){
+    return {
+      type: 'FINISH_WORK'
+    }
+  },
   saveInDisk: function(){
     var self = this;
     return function(dispatch,getState){
@@ -52,6 +76,7 @@ export default{
       dispatch(self.save());
       getState().planeText.promise.then(function(){
         dispatch(self.message('SAVED'));
+        //dispatch(self.finish());
       });
 
     }
