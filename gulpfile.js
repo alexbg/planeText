@@ -87,12 +87,15 @@ var babelDevelopment = function(){
   })
   .transform(babelify,{presets: ["stage-0","es2015", "react"]})
 
-
+  gutil.log(gutil.colors.green('Start javascript bundle'));
   return b.bundle()
     .on('error',gutil.log)
     .pipe(source('app.js'))
     .pipe(buffer())
-    .pipe(gulp.dest('./app/js/'));
+    .pipe(gulp.dest('./app/js/'))
+    .on('finish',function(){
+      gutil.log(gutil.colors.green('javascript bundle finished'));
+    });
 };
 
 // Babel when is in production

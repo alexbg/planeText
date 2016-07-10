@@ -29,6 +29,9 @@ var actionsButtons = function(dispatch){
     },
     loadDocuments: function(){
       dispatch(actions.loadDocuments());
+    },
+    notLoadDocument: function(){
+      dispatch(actions.notLoadDocument());
     }
   }
 }

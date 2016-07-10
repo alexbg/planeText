@@ -88,9 +88,9 @@ const planeText = function(state = {title: ''},action){
       }
       return state;
       break;
-    /*case 'FINISH_WORK':
-      return Object.assign({},state,{promise: null});
-      break;*/
+    case 'NOT_LOAD_DOCUMENT':
+      return Object.assign({},state,{documents: null});
+      break;
     default:
       return state;
   }

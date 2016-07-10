@@ -80,5 +80,10 @@ export default{
       });
 
     }
+  },
+  notLoadDocument: function(){
+    return {
+      type: 'NOT_LOAD_DOCUMENT'
+    }
   }
 }

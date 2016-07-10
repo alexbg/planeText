@@ -4,3 +4,4 @@ src/node_modules
 src/bower_components
 dist
 buildd
+npm-debug.log

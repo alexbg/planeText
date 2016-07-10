@@ -10,6 +10,7 @@ import SimpleMDE from 'simplemde';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import {List, ListItem} from 'material-ui/List';
 
 var editor;
 
@@ -77,7 +78,7 @@ const App = React.createClass({
 
   render: function(){
     var state = this.props;
-
+    var documents = [];
     //var changeTitleModal;
 
     console.log('ESTE ES EL STATE QUE ESTA EN LA VISTA');
@@ -99,6 +100,20 @@ const App = React.createClass({
       />
     ];
 
+    const loadDocumentsButtons = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={function(){state.notLoadDocument()}}
+      />
+    ];
+
+    if(state.planeText.documents){
+      documents = state.planeText.documents.rows.map(function(value,id){
+        return <ListItem primaryText={value.doc.title} onClick={function(){console.log('Iniciar el documento')}}/>
+      })
+    }
+    console.log(documents);
     return(
       <MuiThemeProvider>
         <div>
@@ -129,15 +144,14 @@ const App = React.createClass({
           {/* Documents */}
           <Dialog
             title="Load a document"
-            actions={changeTitleModalButton}
+            actions={loadDocumentsButtons}
             modal={false}
             open={state.planeText.documents}
+            autoScrollBodyContent={true}
           >
-            <TextField
-              hintText="No es nada"
-              fullWidth={true}
-              onChange={function(e){tempValues = e.target.value}}
-            />
+            <List>
+              {documents}
+            </List>
           </Dialog>
         </div>
       </MuiThemeProvider>
