@@ -112,6 +112,15 @@ const planeText = function(state = {title: ''},action){
     case 'NOT_LOAD_DOCUMENT':
       return Object.assign({},state,{documents: null});
       break;
+    case 'NEW_DOCUMENT':
+      var newState = {title: ''}
+      newState.message = {
+        open: false,
+        duration: 3000,
+        message: ''
+      }
+      return newState;
+      break;
     default:
       return state;
   }

@@ -41,6 +41,15 @@ const App = React.createClass({
         'preview',
         '|',
         {
+          name: 'newDocument',
+          className: 'fa fa-file',
+          title: 'New Document',
+          action: function newDocument(editor){
+            self.props.newDocument();
+            editor.value('');
+          }
+        },
+        {
           name: 'save',
           className: 'fa fa-floppy-o',
           title: 'Save',
@@ -52,14 +61,14 @@ const App = React.createClass({
           title: 'Change Title',
           action: function changeTitle(editor){self.props.changeTitle()}
         },
-        {
+        /*{
           name: 'pruebas',
           className: 'fa fa-pencil-square-o',
           title: 'Pruebas',
           action: function pruebas(editor){self.props.getDocuments()}
-        },
+        },*/
         {
-          name: 'Load document',
+          name: 'loadDocuments',
           className: 'fa fa-folder',
           title: 'Load a document',
           action: function loadDocument(editor){self.props.loadDocuments()}

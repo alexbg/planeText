@@ -94,5 +94,10 @@ export default{
       type: 'INSERT_ACTUAL_DOCUMENT',
       document: document
     }
+  },
+  newDocument: function(){
+    return {
+      type: 'NEW_DOCUMENT'
+    }
   }
 }
