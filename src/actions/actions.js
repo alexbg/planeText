@@ -74,7 +74,10 @@ export default{
     return function(dispatch,getState){
 
       dispatch(self.save());
-      getState().planeText.promise.then(function(){
+      getState().planeText.promise.then(function(document){
+        console.log('ESTE ES EL DOCUMENTO GUARDADO');
+        console.log(document);
+        dispatch(self.insertActualDocument(document));
         dispatch(self.message('SAVED'));
         //dispatch(self.finish());
       });
@@ -84,6 +87,12 @@ export default{
   notLoadDocument: function(){
     return {
       type: 'NOT_LOAD_DOCUMENT'
+    }
+  },
+  insertActualDocument: function(document){
+    return {
+      type: 'INSERT_ACTUAL_DOCUMENT',
+      document: document
     }
   }
 }

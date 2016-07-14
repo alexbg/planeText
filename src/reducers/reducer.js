@@ -17,21 +17,23 @@ const planeText = function(state = {title: ''},action){
 
   state.changeTitle = false;
 
-
   switch (action.type) {
     case 'KEEP':
       console.log(action.text);
       return Object.assign({},state,{text: action.text.text});
       break;
+
     case 'NEW':
       // Se crea un texto en la base de datos
       return Object.assign({},{title: ''});
       break;
+
     case 'DELETE':
       // Elimina un texto de la base de datos
       console.log('Eliminandolo de la base de datos');
       return Object.assign({},state);
       break;
+
     case 'CHANGE_TITLE':
       // Muestra el dialogo para cambiar el titulo y lo cambia
       console.log('Cambiando el titulo');
@@ -48,12 +50,19 @@ const planeText = function(state = {title: ''},action){
       }
       return Object.assign({},state,{title: title,changeTitle: changeTitle});
       break;
+
     case 'SAVE':
       // Guardar todo en la base de datos
 
       console.log('ESTA EN EL SAVE');
+      var promise;
+      if(state.rev){
+        promise = db.post({_id: state.id,_rev: state.rev,text: state.text,title:state.title});
+      }else{
+        promise = db.post({title: state.title,text: state.text});
+      }
 
-      return Object.assign({},state,{promise: db.post({title: state.title,text: state.text})});
+      return Object.assign({},state,{promise: promise});
 
       break;
     case 'MESSAGE':
@@ -62,14 +71,25 @@ const planeText = function(state = {title: ''},action){
 
       return Object.assign({},state,{message: message});
       break;
+
     case 'LOAD_DOCUMENTS':
         console.log('Obteniendo los documentos nuevos');
         return Object.assign({},state,{promise: db.allDocs({include_docs: true})});
       break;
+
     case 'INSERT_MULTIPLE_DOCUMENTS':
       console.log('insertando multiples documentos');
       return Object.assign({},state,{documents: action.documents});
       break;
+
+    case 'INSERT_ACTUAL_DOCUMENT':
+      console.log('Poniendo el actual documento');
+      return Object.assign({},state,{
+        id: action.document.id,
+        rev: action.document.rev
+      });
+      break;
+
     case 'GET_DOCUMENTS':
       if(action.document){
         db.allDocs().then(
@@ -88,6 +108,7 @@ const planeText = function(state = {title: ''},action){
       }
       return state;
       break;
+
     case 'NOT_LOAD_DOCUMENT':
       return Object.assign({},state,{documents: null});
       break;
