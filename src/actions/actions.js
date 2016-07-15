@@ -89,6 +89,16 @@ export default{
       type: 'NOT_LOAD_DOCUMENT'
     }
   },
+  loadADocument: function(id){
+    var self = this;
+    return function(dispatch,getState,id){
+      console.log('ESTO ES ID: '+id);
+      dispatch({type:'LOAD_A_DOCUMENT',id:id});
+      getState().planeText.promise.then(function(document){
+        dispatch(self.insertActualDocument(document));
+      });
+    }
+  },
   insertActualDocument: function(document){
     return {
       type: 'INSERT_ACTUAL_DOCUMENT',

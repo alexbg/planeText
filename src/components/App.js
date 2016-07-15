@@ -118,8 +118,9 @@ const App = React.createClass({
     ];
 
     if(state.planeText.documents){
+      var self = state;
       documents = state.planeText.documents.rows.map(function(value,id){
-        return <ListItem primaryText={value.doc.title} onClick={function(){console.log('Iniciar el documento')}}/>
+        return <ListItem primaryText={value.doc.title} onClick={function(){self.loadADocument(value);}}/>
       })
     }
     console.log(documents);

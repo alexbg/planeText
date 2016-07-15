@@ -82,12 +82,28 @@ const planeText = function(state = {title: ''},action){
       return Object.assign({},state,{documents: action.documents});
       break;
 
+    case 'LOAD_A_DOCUMENT':
+      //var promise = db.get(action.id);
+      return Object.assign({},state,{promise: db.get(action.id)});
+      break;
+
     case 'INSERT_ACTUAL_DOCUMENT':
       console.log('Poniendo el actual documento');
-      return Object.assign({},state,{
+
+      var newState = {
         id: action.document.id,
         rev: action.document.rev
-      });
+      }
+
+      if(action.text){
+        newState.text = action.text;
+      }
+
+      if(action.title){
+        newState.title = action.title;
+      }
+
+      return Object.assign({},state,newState);
       break;
 
     case 'GET_DOCUMENTS':

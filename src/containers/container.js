@@ -35,6 +35,9 @@ var actionsButtons = function(dispatch){
     },
     newDocument: function(){
       dispatch(actions.newDocument());
+    },
+    loadADocument: function(){
+      dispatch(actions.loadADocument());
     }
   }
 }
